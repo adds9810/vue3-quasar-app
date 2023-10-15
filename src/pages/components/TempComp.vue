@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="text-h4">Docs/Index</div>
+    <div class="text-h4">Temp Comp</div>
   </div>
 </template>
 

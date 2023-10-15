@@ -1,9 +1,11 @@
 <template>
   <div>
-    <div class="text-h4">Docs/Index</div>
+    <div class="text-h5">profile</div>
   </div>
 </template>
 
-<script setup></script>
+<script>
+export default {};
+</script>
 
 <style lang="scss" scoped></style>

@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div class="text-h4">About</div>
+    <div class="text-h4">admin</div>
+    <router-view />
   </div>
 </template>
 

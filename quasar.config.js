@@ -21,12 +21,12 @@ module.exports = configure(function (/* ctx */) {
       errors: true,
     },
 
-    // https://v2.quasar.dev/quasar-cli-vite/prefetch-feature
+    // https://v2.quasar.dev/quasar-cli/prefetch-feature
     // preFetch: true,
 
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
-    // https://v2.quasar.dev/quasar-cli-vite/boot-files
+    // https://v2.quasar.dev/quasar-cli/boot-files
     boot: [],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
@@ -53,7 +53,7 @@ module.exports = configure(function (/* ctx */) {
         node: "node16",
       },
 
-      vueRouterMode: "hash", // available values: 'hash', 'history'
+      vueRouterMode: "history", // available values: 'hash', 'history'
       // vueRouterBase,
       // vueDevtools,
       // vueOptionsAPI: false,
@@ -79,13 +79,19 @@ module.exports = configure(function (/* ctx */) {
           {
             // 배열로 복수 설정 가능
             routesFolder: [
-              { src: "src/pages" },
-              { src: "src/docs", path: "docs/" },
+              {
+                src: "src/pages",
+              },
+              {
+                src: "src/docs",
+                path: "docs/",
+              },
             ],
             // src/pages/components 의 페이지는 생성을 원치 않을 경우
             exclude: ["**/components/**"],
           },
         ],
+        ["vite-plugin-vue-layouts", {}],
       ],
     },
 
@@ -129,7 +135,7 @@ module.exports = configure(function (/* ctx */) {
     //   electronPreload: 'src-electron/electron-preload'
     // },
 
-    // https://v2.quasar.dev/quasar-cli-vite/developing-ssr/configuring-ssr
+    // https://v2.quasar.dev/quasar-cli/developing-ssr/configuring-ssr
     ssr: {
       // ssrPwaHtmlFilename: 'offline.html', // do NOT use index.html as name!
       // will mess up SSR
@@ -150,7 +156,7 @@ module.exports = configure(function (/* ctx */) {
       ],
     },
 
-    // https://v2.quasar.dev/quasar-cli-vite/developing-pwa/configuring-pwa
+    // https://v2.quasar.dev/quasar-cli/developing-pwa/configuring-pwa
     pwa: {
       workboxMode: "generateSW", // or 'injectManifest'
       injectPwaMetaTags: true,
@@ -164,22 +170,21 @@ module.exports = configure(function (/* ctx */) {
       // extendPWACustomSWConf (esbuildConf) {}
     },
 
-    // Full list of options: https://v2.quasar.dev/quasar-cli-vite/developing-cordova-apps/configuring-cordova
+    // Full list of options: https://v2.quasar.dev/quasar-cli/developing-cordova-apps/configuring-cordova
     cordova: {
       // noIosLegacyBuildFlag: true, // uncomment only if you know what you are doing
     },
 
-    // Full list of options: https://v2.quasar.dev/quasar-cli-vite/developing-capacitor-apps/configuring-capacitor
+    // Full list of options: https://v2.quasar.dev/quasar-cli/developing-capacitor-apps/configuring-capacitor
     capacitor: {
       hideSplashscreen: true,
     },
 
-    // Full list of options: https://v2.quasar.dev/quasar-cli-vite/developing-electron-apps/configuring-electron
+    // Full list of options: https://v2.quasar.dev/quasar-cli/developing-electron-apps/configuring-electron
     electron: {
       // extendElectronMainConf (esbuildConf)
       // extendElectronPreloadConf (esbuildConf)
 
-      // specify the debugging port to use for the Electron app when running in development mode
       inspectPort: 5858,
 
       bundler: "packager", // 'packager' or 'builder'

@@ -4,12 +4,7 @@
   >
     <div>
       <div style="font-size: 30vh">404</div>
-
       <div class="text-h2" style="opacity: 0.4">Oops. Nothing here...</div>
-      <div class="text-h4">
-        {{ $route.params }}
-      </div>
-
       <q-btn
         class="q-mt-xl"
         color="white"
@@ -24,10 +19,9 @@
 </template>
 
 <script>
-// 404화면이 잘 안됨... 나중에 찾아보자..
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: "ErrorNotFound",
+  name: 'ErrorNotFound',
 });
 </script>
