@@ -16,4 +16,5 @@
 name: home-page
 meta:
   requiresAuth: true
+  width:600px
 </route>
