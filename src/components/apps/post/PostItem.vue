@@ -20,7 +20,8 @@
       <div class="text-primary text-cation">
         <span v-for="tag in tags" :key="tag" class="q-mr-sm">#{{ tag }}</span>
       </div>
-      <div class="text-gray-6 q-my-sm">{{ content }}</div>
+      <!-- 2줄시 ... 되도록 ellipsis-2-lines 추가  -->
+      <div class="text-gray-6 q-my-sm ellipsis-2-lines">{{ content }}</div>
       <div class="row item-center">
         <div class="col-3">
           <div class="flex flex-center">

@@ -1,17 +1,25 @@
 <template>
   <q-page padding>
-    <div class="text-h4">커뮤니티 목록</div>
-    <section class="q-qutter-y-sm q-mt-lg">
-      <!-- <q-card v-for="id in 100" :key="id" @click="goPostDetails(id)">
+    <div class="row q-col-gutter-x-lg">
+      <!-- 필요한 위치에 컴포넌트 추가 -->
+      <PostLeftBar class="col-grow" />
+      <section class="col-7">
+        <PostHeader />
+        <PostList :items="posts" />
+      </section>
+      <PostRightBar class="col-grow" />
+    </div>
+    <!--<section class="q-qutter-y-sm q-mt-lg">
+      <q-card v-for="id in 100" :key="id" @click="goPostDetails(id)">
      
           * @click="($event) => goPostDetails(id)"에서 '($event) =>' 가이드를 원하지 않을 경우
           .vscode -> settings.json에 "volar.inlayHints.eventArgumentInInlineHandlers": false 추가
  
         <q-card-section>{{ id }}번 게시글</q-card-section>    
       </q-card> -->
-      <!--컴포넌트 및 props 연결 -->
+    <!--컴포넌트 및 props 연결
       <PostList :items="posts" />
-    </section>
+    </section> -->
   </q-page>
   <!-- 
     * router.link 와 router.push를 구분해서 필요할 때 사용하자
@@ -24,6 +32,9 @@
 import { useRouter } from "vue-router";
 // components 연결
 import PostList from "src/components/apps/post/PostList.vue";
+import PostHeader from "src/pages/components/PostHeader.vue";
+import PostLeftBar from "src/pages/components/PostLeftBar.vue";
+import PostRightBar from "src/pages/components/PostRightBar.vue";
 
 const router = useRouter();
 // const goPostDetails = (id) => router.push(`/posts/${id}`);
