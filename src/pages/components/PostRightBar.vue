@@ -36,19 +36,28 @@
               color="grey-3"
               text-color="dark"
               unelevated
-              >vue.js
-              <q-icon name="clear" size="12px" color="gray" />
-            </q-btn>
+            >
+              vuejs <q-icon name="clear" size="12px" color="grey"
+            /></q-btn>
+            <q-btn
+              size="10px"
+              padding="2px 4px 2px 7px"
+              color="grey-3"
+              text-color="dark"
+              unelevated
+            >
+              react <q-icon name="clear" size="12px" color="grey"
+            /></q-btn>
           </div>
         </q-card>
       </q-card-section>
       <q-list padding>
         <q-item v-for="tag in tags" :key="tag.name" clickable dense>
-          <q-item-section class="text-teal text-caption"
-            >#{{ tag.name }}
+          <q-item-section class="text-teal text-caption">
+            #{{ tag.name }}
           </q-item-section>
-          <q-item-section class="text-teal text-caption"
-            >{{ tag.count }}
+          <q-item-section side class="text-teal text-caption">
+            {{ tag.count }}
           </q-item-section>
         </q-item>
       </q-list>
@@ -60,13 +69,13 @@
 import { ref } from "vue";
 import StickySideBar from "src/components/StickySideBar.vue";
 
-const tags = ref(
-  { name: "vue.js", count: 10 },
+const tags = ref([
+  { name: "vuejs", count: 10 },
   { name: "react", count: 8 },
   { name: "angular", count: 7 },
   { name: "html", count: 1 },
-  { name: "css", count: 2 }
-);
+  { name: "css", count: 3 },
+]);
 </script>
 
 <style lang="scss" scoped></style>

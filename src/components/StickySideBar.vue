@@ -11,7 +11,7 @@
   position: sticky;
   top: 66px;
   z-index: 2;
-  overflow-y: scroll;
+  overflow-y: auto; //  overflow-y: scroll; 강의대로 하면 문제되어서 바꿈..
   height: fit-content !important;
 }
 </style>
