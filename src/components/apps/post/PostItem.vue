@@ -25,37 +25,39 @@
       <div class="row item-center">
         <div class="col-3">
           <div class="flex flex-center">
-            <q-icon name="sym_o_visibility" color="gray" size="xs" />
-            <span class="text-gray q-ml-xs text-body2">{{ readCount }}</span>
-            <q-tooltip :offset="[0.4]">조회수</q-tooltip>
+            <PostIcon
+              name="sym_o_visibility"
+              :label="readCount"
+              tooltip="조회수"
+            />
           </div>
         </div>
         <div class="col-3">
           <div class="flex flex-center">
-            <q-icon name="sym_o_sms" color="gray" size="xs" />
-            <span class="text-gray q-ml-xs text-body2">{{ commentCount }}</span>
-            <q-tooltip :offset="[0.4]">댓글수</q-tooltip>
+            <PostIcon name="sym_o_sms" :label="commentCount" tooltip="댓글수" />
           </div>
         </div>
         <div class="col-3">
           <div class="flex flex-center">
             <!-- 클릭 이벤트 추가 및 이벤트 전파 차단 @click.prevent -->
             <q-btn class="full-width" flat dense @click.prevent>
-              <q-icon name="sym_o_favorite" color="gray" size="xs" />
-              <span class="text-gray q-ml-xs text-body2">{{ likeCount }}</span>
-              <q-tooltip :offset="[0.4]">좋아요</q-tooltip></q-btn
-            >
+              <PostIcon
+                name="sym_o_favorite"
+                :label="likeCount"
+                tooltip="좋아요"
+              />
+            </q-btn>
           </div>
         </div>
         <div class="col-3">
           <div class="flex flex-center">
             <q-btn class="full-width" flat dense @click.prevent>
-              <q-icon name="sym_o_bookmark" color="gray" size="xs" />
-              <span class="text-gray q-ml-xs text-body2">{{
-                bookmarkCount
-              }}</span>
-              <q-tooltip :offset="[0.4]">북마크</q-tooltip></q-btn
-            >
+              <PostIcon
+                name="sym_o_bookmark"
+                :label="bookmarkCount"
+                tooltip="북마크"
+              />
+            </q-btn>
           </div>
         </div>
       </div>
@@ -64,6 +66,8 @@
 </template>
 
 <script setup>
+import PostIcon from "./PostIcon.vue";
+
 // 받을 값 입력
 defineProps({
   id: { type: String },
