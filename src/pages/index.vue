@@ -7,8 +7,9 @@
         <PostHeader />
         <PostList :items="posts" />
       </section>
-      <PostRightBar class="col-3" />
+      <PostRightBar class="col-3" @open-write-dialog="openWriteDialog" />
     </div>
+    <PostWriteDialog v-model="postDialog" />
     <!--<section class="q-qutter-y-sm q-mt-lg">
       <q-card v-for="id in 100" :key="id" @click="goPostDetails(id)">
      
@@ -29,19 +30,22 @@
 </template>
 
 <script setup>
+// 상태를 나타낼 변수를 불러오게 함
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 // components 연결
 import PostList from "src/components/apps/post/PostList.vue";
 import PostHeader from "src/pages/components/PostHeader.vue";
 import PostLeftBar from "src/pages/components/PostLeftBar.vue";
 import PostRightBar from "src/pages/components/PostRightBar.vue";
+import PostWriteDialog from "src/components/apps/post/PostWriteDialog.vue";
 
 const router = useRouter();
 // const goPostDetails = (id) => router.push(`/posts/${id}`);
 
 // 반복문을 사용해 만들기
 const posts = Array.from(Array(20), (_, index) => ({
-  id: index,
+  id: "A" + index,
   title: "Vue3 Firebase 강의 " + index,
   content:
     "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed temporibus magnam nostrum illum sunt quo exercitationem repellendus eaque hic, aliquid labore consequuntur, natus itaque porro dolorem error esse facere ipsum.",
@@ -53,6 +57,11 @@ const posts = Array.from(Array(20), (_, index) => ({
   uid: "uid",
   category: "카테고리" + index,
 }));
+
+const postDialog = ref(true);
+const openWriteDialog = () => {
+  postDialog.value = true;
+};
 </script>
 
 <style lang="scss" scoped></style>

@@ -13,7 +13,7 @@ defineProps({
     required: true,
   },
   label: {
-    type: String,
+    type: [String, Number],
   },
   tooltip: {
     type: String,

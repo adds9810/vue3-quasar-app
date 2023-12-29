@@ -8,6 +8,7 @@
       color="primary"
       text-color="white"
       class="full-width"
+      @click="$emit('openWriteDialog')"
     >
       <q-avatar class="q-mr-sm" color="white" text-color="primary" size="22px">
         <q-icon name="edit" size="14px" />
@@ -76,6 +77,8 @@ const tags = ref([
   { name: "html", count: 1 },
   { name: "css", count: 3 },
 ]);
+
+defineEmits(["openWriteDialog"]);
 </script>
 
 <style lang="scss" scoped></style>
