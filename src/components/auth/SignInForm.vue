@@ -38,13 +38,20 @@
         unelevated
         color="primary"
         outline
+        @click="handleSignInGoogle"
       />
     </q-form>
   </div>
 </template>
 
 <script setup>
+import { signInWidthGoogle } from "src/services/auth";
 defineEmits(["changeView"]);
+
+// 로그인(구글)
+const handleSignInGoogle = async () => {
+  await signInWidthGoogle();
+};
 </script>
 
 <style lang="scss" scoped></style>
