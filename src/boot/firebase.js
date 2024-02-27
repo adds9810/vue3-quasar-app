@@ -3,7 +3,8 @@ import { boot } from "quasar/wrappers";
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth } from "firebase/auth"; //
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useAuthStore } from "src/stores/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -25,10 +26,15 @@ const analytics = getAnalytics(app);
 const auth = getAuth(app);
 
 // 인증을 외부에서도 사용하게 하기 위해 내보내기
-export { auth }; 
+export { auth };
 
 // "async" is optional;
 // more info on params: https://v2.quasar.dev/quasar-cli/boot-files
 export default boot(async (/* { app, router, ... } */) => {
-  // something to do
+  // onAuthStateChanged - 로그인/로그아웃시 사용자의 정보를 가져옴
+  onAuthStateChanged(auth, (user) => {
+    const authStore = useAuthStore();
+    console.log("user : ", user);
+    authStore.setUser(user);
+  });
 });

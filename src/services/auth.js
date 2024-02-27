@@ -1,11 +1,15 @@
-import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { auth } from "src/boot/firebase.js";
+import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
+import { auth } from "src/boot/firebase";
 
-// 로그인(구글)
-export async function signInWidthGoogle() {
+// 로그인 (구글)
+export async function signInWithGoogle() {
   const provider = new GoogleAuthProvider();
   const result = await signInWithPopup(auth, provider);
-
-  // test
-  console.log("user:", result.user);
+  console.log("user: ", result.user);
 }
+
+// 로그아웃 (구글)
+export async function logout() {
+  await signOut(auth);
+}
+

@@ -45,12 +45,12 @@
 </template>
 
 <script setup>
-import { signInWidthGoogle } from "src/services/auth";
+import { signInWithGoogle } from "src/services/auth";
 defineEmits(["changeView"]);
 
 // 로그인(구글)
 const handleSignInGoogle = async () => {
-  await signInWidthGoogle();
+  await signInWithGoogle();
 };
 </script>
 

@@ -38,22 +38,24 @@
         <q-separator dark vertical />
         <!-- AuthDialog 4. 열기 이벤트 세팅-->
         <q-btn
+          v-if="!authStore.isAuthenticated"
           unelevated
           rounded
           color="primary"
           label="로그인 / 회원가입"
           @click="openAuthDialog"
         />
-        <q-btn round flat>
+        <q-btn v-if="authStore.isAuthenticated" round flat>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/img/avatar.png" />
+            <img :src="authStore.user.photoURL" />
+            <!-- 로그인한 유저의 썸네일 -->
           </q-avatar>
           <q-menu>
             <q-list style="min-width: 100px">
               <q-item clickable v-close-popup to="/mypage/profile">
                 <q-item-section>프로필</q-item-section>
               </q-item>
-              <q-item clickable v-close-popup>
+              <q-item clickable v-close-popup @click="handleLogout">
                 <q-item-section>로그아웃</q-item-section>
               </q-item></q-list
             >
@@ -72,12 +74,15 @@
 <script setup>
 import { computed, ref } from "vue";
 import { useRoute } from "vue-router"; // meta 속성을 가져와야 하기 때문에 추가
-
+import { useAuthStore } from "src/stores/auth";
 // AuthDialog 1. AuthDialog컴포넌트 불러오기
 import AuthDialog from "src/components/auth/authDialog.vue";
+import { logout } from "src/services/auth";
+
+const authStore = useAuthStore();
 
 const route = useRoute();
-console.dir(route); // 객체 찍기
+// console.dir(route); 객체 찍기
 const pageContainerStyle = computed(() => ({
   maxWidth: route.meta?.width || "1080px", // 각 화면에 지정된 너비가 있으면 그걸로, 없으면 1080px 적용
   margin: "0 auto",
@@ -87,4 +92,7 @@ const pageContainerStyle = computed(() => ({
 const authDialog = ref(false);
 // AuthDialog 4. 열기 이벤트 세팅
 const openAuthDialog = () => (authDialog.value = true);
+const handleLogout = async () => {
+  await logout();
+};
 </script>
