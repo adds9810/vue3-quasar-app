@@ -47,7 +47,12 @@
         />
         <q-btn v-if="authStore.isAuthenticated" round flat>
           <q-avatar>
-            <img :src="authStore.user.photoURL" />
+            <img
+              :src="
+                authStore.user.photoURL ||
+                generateDefaultPhotoURL(authStore.user.uid)
+              "
+            />
             <!-- 로그인한 유저의 썸네일 -->
           </q-avatar>
           <q-menu>
@@ -76,8 +81,8 @@ import { computed, ref } from "vue";
 import { useRoute } from "vue-router"; // meta 속성을 가져와야 하기 때문에 추가
 import { useAuthStore } from "src/stores/auth";
 // AuthDialog 1. AuthDialog컴포넌트 불러오기
-import AuthDialog from "src/components/auth/authDialog.vue";
-import { logout } from "src/services/auth";
+import AuthDialog from "src/components/auth/AuthDialog.vue";
+import { logout, generateDefaultPhotoURL } from "src/services";
 
 const authStore = useAuthStore();
 

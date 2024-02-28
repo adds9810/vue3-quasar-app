@@ -11,8 +11,8 @@
     <q-card :style="{ width: '400px' }">
       <q-card-section class="flex">
         <q-space /><!-- 우측 정렬 방법 q-space 혹은 class .justify-end -->
-        <!-- 
-            닫기 버튼 커스텀 
+        <!--
+            닫기 버튼 커스텀
             v-close-popup : 퀘이사에서 지원하는 팝업 닫기 이벤트 메소드(??)
         -->
         <q-btn icon="close" flat round dense v-close-popup />
@@ -35,6 +35,7 @@
         <component
           :is="authViewComponents[viewMode]"
           @change-view="changeViewMode"
+          @close-dialog="closeDialog"
         />
       </q-card-section>
     </q-card>
@@ -49,8 +50,13 @@
 // 06-1. defineAsyncComponent 사용선언
 import { defineAsyncComponent, ref } from "vue";
 
-defineProps({ modelValue: { type: Boolean, default: false } });
-defineEmits(["update:modelValue"]);
+defineProps({
+  modelValue: {
+    type: Boolean,
+    default: false,
+  },
+});
+const emit = defineEmits(["update:modelValue"]);
 
 // 04. 상황에 맞는 form이 보여지도록 조건부 상태를 관리할 반응형 함수 추가
 const viewMode = ref("SignInForm"); // SignInForm, SignUpForm, FindPassword
@@ -67,6 +73,10 @@ const authViewComponents = {
   SignInForm: defineAsyncComponent(() => import("./SignInForm.vue")),
   SignUpForm: defineAsyncComponent(() => import("./SignUpForm.vue")),
   FindPassword: defineAsyncComponent(() => import("./FindPassword.vue")),
+};
+
+const closeDialog = () => {
+  emit("update:modelValue", false);
 };
 </script>
 
