@@ -8,6 +8,7 @@ import {
   signOut,
   updatePassword,
   updateProfile,
+  updateEmail,
 } from "firebase/auth";
 import { auth } from "src/boot/firebase";
 
@@ -62,4 +63,16 @@ export async function sendVerificationEmail() {
 // 비밀번호 변경
 export async function updateUserPassword(newPassword) {
   await updatePassword(auth.currentUser, newPassword);
+}
+
+// 프로필 변경
+export async function updateUserProfile(displayName) {
+  await updateProfile(auth.currentUser, {
+    displayName,
+  });
+}
+
+// 이메일 변경
+export async function updateUserEmail(email) {
+  await updateEmail(auth.currentUser, email);
 }
