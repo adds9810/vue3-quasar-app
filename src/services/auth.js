@@ -1,6 +1,8 @@
 import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
+  sendEmailVerification,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
@@ -31,7 +33,8 @@ export async function signUpWithEmail({ email, password, nickname }) {
     displayName: nickname,
     photoURL: generateDefaultPhotoURL(user.uid),
   });
-  console.log("user: ", user);
+  // console.log("user: ", user);
+  sendVerificationEmail(); // 상단까지만 정상 동작하면 실행되도록 await를 추가하지 않음
 }
 
 // 기본 이미지 설정
@@ -43,4 +46,14 @@ export function generateDefaultPhotoURL(uid) {
 export async function signInWithEmail({ email, password }) {
   const { user } = await signInWithEmailAndPassword(auth, email, password);
   return user;
+}
+
+// 비밀번호 초기화
+export async function sendPasswordReset(email) {
+  await sendPasswordResetEmail(auth, email);
+}
+
+// 인증메일 보내기
+export async function sendVerificationEmail() {
+  await sendEmailVerification(auth.currentUser);
 }

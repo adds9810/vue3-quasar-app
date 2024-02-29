@@ -57,8 +57,18 @@
           </q-avatar>
           <q-menu>
             <q-list style="min-width: 100px">
-              <q-item clickable v-close-popup to="/mypage/profile">
+              <q-item
+                v-if="authStore.user.emailVerified"
+                clickable
+                v-close-popup
+                to="/mypage/profile"
+              >
                 <q-item-section>프로필</q-item-section>
+              </q-item>
+              <q-item v-else clickable v-close-popup @click="verifyEmail">
+                <q-item-section class="text-red"
+                  >이메일을 인증해 주세요.</q-item-section
+                >
               </q-item>
               <q-item clickable v-close-popup @click="handleLogout">
                 <q-item-section>로그아웃</q-item-section>
@@ -78,13 +88,16 @@
 </template>
 <script setup>
 import { computed, ref } from "vue";
+import { useQuasar } from "quasar";
 import { useRoute } from "vue-router"; // meta 속성을 가져와야 하기 때문에 추가
 import { useAuthStore } from "src/stores/auth";
 // AuthDialog 1. AuthDialog컴포넌트 불러오기
 import AuthDialog from "src/components/auth/AuthDialog.vue";
 import { logout, generateDefaultPhotoURL } from "src/services";
+import { sendEmailVerification } from "firebase/auth";
 
 const authStore = useAuthStore();
+const $q = useQuasar();
 
 const route = useRoute();
 // console.dir(route); 객체 찍기
@@ -99,5 +112,11 @@ const authDialog = ref(false);
 const openAuthDialog = () => (authDialog.value = true);
 const handleLogout = async () => {
   await logout();
+  $q.notify("로그아웃 되었습니다.");
+};
+
+const verifyEmail = async () => {
+  await sendEmailVerification();
+  $q.notify("이메일을 확인해주세요.");
 };
 </script>
