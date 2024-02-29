@@ -6,6 +6,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  updatePassword,
   updateProfile,
 } from "firebase/auth";
 import { auth } from "src/boot/firebase";
@@ -17,7 +18,7 @@ const DEFAULT_PTOTO_URL =
 export async function signInWithGoogle() {
   const provider = new GoogleAuthProvider();
   const { user } = await signInWithPopup(auth, provider);
-  console.log("user: ", result.user);
+  // console.log("user: ", result.user);
   return user;
 }
 
@@ -56,4 +57,9 @@ export async function sendPasswordReset(email) {
 // 인증메일 보내기
 export async function sendVerificationEmail() {
   await sendEmailVerification(auth.currentUser);
+}
+
+// 비밀번호 변경
+export async function updateUserPassword(newPassword) {
+  await updatePassword(auth.currentUser, newPassword);
 }

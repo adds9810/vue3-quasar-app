@@ -1,6 +1,6 @@
 <template>
   <q-page padding>
-    <div class="row">
+    <div class="row q-col-gutter-lg">
       <div class="col-4">
         <BaseCard>
           <q-list bordered separator>
