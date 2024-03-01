@@ -72,6 +72,16 @@ const form = ref({
   email: "",
   password: "",
 });
+
+// 전역 에러 핸들링 테스트용
+// const handleSignInEmail = async () => {
+//   // 정상 수신 되었을 경우
+//   await signInWithEmail(form.value);
+//   $q.notify("환영합니다 :)");
+//   emit("closeDialog");
+//   // 리턴값은 없지만 에러처리를 위해 await가 필요함
+// };
+
 const handleSignInEmail = async () => {
   // 에러처리
   try {

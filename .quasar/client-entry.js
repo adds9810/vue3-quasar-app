@@ -154,7 +154,9 @@ createQuasarApp(createApp, quasarUserOptions)
 
     return Promise[ method ]([
       
-      import('boot/firebase')
+      import('boot/firebase'),
+      
+      import('boot/error-handler')
       
     ]).then(bootFiles => {
       const boot = mapFn(bootFiles).filter(entry => typeof entry === 'function')
