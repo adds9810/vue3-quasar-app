@@ -55,24 +55,43 @@
 </template>
 
 <script setup>
-import { signInWithGoogle, signInWithEmail } from "src/services";
-import { useQuasar } from "quasar";
 import { ref } from "vue";
+import { useQuasar } from "quasar";
+import { signInWithGoogle, signInWithEmail } from "src/services";
+import { useAsyncState } from "@vueuse/core";
+import { getErrorMessage } from "src/utils/firebase/error-message";
+
 import DisplayError from "../DisplayError.vue";
 const emit = defineEmits(["changeView", "closeDialog"]);
 
 const $q = useQuasar();
 
 // 에러관련 변수선언
-const isLoding = ref(false);
-const error = ref(null);
+// const isLoding = ref(false);
+// const error = ref(null);
+
+const { isLoading, error, execute } = useAsyncState(signInWithEmail, null, {
+  immediate: false, // 즉시 실행 여부
+  throwError: true, // 에러 발생시 전역 에러 핸들링이 실행됨
+  onSuccess: () => {
+    // 성공했을 때의 함수
+    $q.notify("환영합니다 :)");
+    emit("closeDialog");
+  },
+  onError: (err) => {
+    $q.notify({
+      type: "negative",
+      message: getErrorMessage(err.code),
+    });
+  },
+});
 
 // 이메일 로그인
 const form = ref({
   email: "",
   password: "",
 });
-
+const handleSignInEmail = () => execute(1000, form.value); // execute을 실행할 함수 구현
 // 전역 에러 핸들링 테스트용
 // const handleSignInEmail = async () => {
 //   // 정상 수신 되었을 경우
@@ -82,22 +101,22 @@ const form = ref({
 //   // 리턴값은 없지만 에러처리를 위해 await가 필요함
 // };
 
-const handleSignInEmail = async () => {
-  // 에러처리
-  try {
-    // 정상 수신 되었을 경우
-    isLoding.value = true;
-    await signInWithEmail(form.value);
-    $q.notify("환영합니다 :)");
-    emit("closeDialog");
-  } catch (err) {
-    // 에러 발생시
-    error.value = err;
-  } finally {
-    // 처리 끝난 후 초기화
-    isLoding.value = false;
-  }
-};
+// const handleSignInEmail = async () => {
+//   // 에러처리
+//   try {
+//     // 정상 수신 되었을 경우
+//     isLoding.value = true;
+//     await signInWithEmail(form.value);
+//     $q.notify("환영합니다 :)");
+//     emit("closeDialog");
+//   } catch (err) {
+//     // 에러 발생시
+//     error.value = err;
+//   } finally {
+//     // 처리 끝난 후 초기화
+//     isLoding.value = false;
+//   }
+// };
 
 // 로그인(구글)
 const handleSignInGoogle = async () => {
