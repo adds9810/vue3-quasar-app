@@ -1,6 +1,12 @@
 <template>
   <!-- @hide="onHide" 닫기 버튼 클릭시 초기화 되도록 -->
-  <q-dialog persistent v-bind="$attrs" @hide="onHide">
+  <q-dialog
+    persistent
+    v-bind="$attrs"
+    @hide="onHide"
+    transition-show="none"
+    transition-hide="none"
+  >
     <q-card :style="{ width: '660px' }">
       <q-toolbar>
         <q-toolbar-title>글쓰기</q-toolbar-title>

@@ -9,6 +9,7 @@
         v-model:title="form.title"
         v-model:category="form.category"
         v-model:content="form.content"
+        @submit.prevent
       >
         <!-- 버튼 커스텀 연습 -->
         <template #actions>
