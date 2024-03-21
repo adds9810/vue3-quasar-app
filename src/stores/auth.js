@@ -9,6 +9,7 @@ export const useAuthStore = defineStore("auth", () => {
     serializer: StorageSerializers.object, // 입출력 데이터값을 변화해 줌
   });
   const isAuthenticated = computed(() => !!user.value); // 로그인 여부에 따른 상태값 전달
+  const uid = computed(() => user.value?.uid || null); // 유저 id를 가져오는 함수
 
   // user의 상태를 변경할 수 있는 함수
   const setUser = (userData) => {
@@ -33,6 +34,7 @@ export const useAuthStore = defineStore("auth", () => {
   return {
     user,
     isAuthenticated,
+    uid,
     setUser,
   };
 });
