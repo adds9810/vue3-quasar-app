@@ -1,4 +1,4 @@
-import { db } from 'boot/firebase';
+import { db } from "boot/firebase";
 import {
   addDoc,
   collection,
@@ -6,8 +6,10 @@ import {
   setDoc,
   serverTimestamp,
   getDocs,
-} from 'firebase/firestore';
-
+  query,
+  where,
+  orderBy,
+} from "firebase/firestore";
 
 // 글 작성 완료 후 상세 페이지로 넘어갈 수 있도록 구현
 export async function createPost(data) {
@@ -43,13 +45,39 @@ export async function createPost(data) {
 
 // 글 작성 기능 구현
 export async function getPosts(params) {
-  const querySnapshot = await getDocs(collection(db, "posts"));
+  console.log("### params : ", params);
+  // 1] 컬렉션에 있는 모든 문서 조회
+  // const querySnapshot = await getDocs(collection(db, "posts"));
   // const posts = [];
   // querySnapshot.forEach(docs => {
   //   // doc.data() is never undefined for query doc snapshots
   //   console.log(docs.id, ' => ', docs.data());
   //   posts.push(docs.data());
   // });
+  // const posts = querySnapshot.docs.map((docs) => {
+  //   const data = docs.data();
+  //   return {
+  //     ...data,
+  //     id: docs.id,
+  //     createdAt: data.createdAt?.toDate(),
+  //   };
+  // });
+  // console.log(posts);
+
+  // 1] 컬렉션에 있는 문서를 쿼리해서 조회
+  const conditions = [];
+  if (params?.category) {
+    conditions.push(where("category", "==", params?.category));
+  }
+  if (params?.tags && params?.tags.length > 0) {
+    conditions.push(where("tags", "array-contains-any", params?.tags));
+  }
+  if (params?.sort) {
+    conditions.push(orderBy(params.sort, "desc"));
+  }
+
+  const q = query(collection(db, "posts"), ...conditions);
+  const querySnapshot = await getDocs(q);
   const posts = querySnapshot.docs.map((docs) => {
     const data = docs.data();
     return {
@@ -58,6 +86,5 @@ export async function getPosts(params) {
       createdAt: data.createdAt?.toDate(),
     };
   });
-  console.log(posts);
   return posts;
 }

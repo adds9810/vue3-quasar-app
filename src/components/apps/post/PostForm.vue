@@ -33,7 +33,7 @@
         outlined
         placeholder="태그를 입력해주세요~! (입력 후 Enter)"
         prefix="#"
-        @keypress.enter.prevent="onRegistTag"
+        @keypress.enter.prevent="addTag"
       />
       <q-chip
         v-for="(tag, index) in tags"
@@ -66,6 +66,7 @@
 import { ref, computed } from "vue";
 import { getCategories } from "src/services/category";
 import { useQuasar } from "quasar";
+import { useTag } from "src/composables/useTag";
 import { validateRequired } from "src/utils/validate-rules";
 import TiptapEditor from "src/components/tiptap/TiptapEditor.vue";
 
@@ -103,30 +104,12 @@ const contentModel = computed({
   set: (val) => emit("update:content", val),
 });
 
-// 태그추가 이벤트
-const onRegistTag = (e) => {
-  const tagValue = e.target.value.replace(/ /g, ""); // 공백 처리
-  if (!tagValue) {
-    return;
-  }
-  if (props.tags.length >= 10) {
-    $q.notify("태그는 10개 이상 등록할 수 없습니다.");
-    return;
-  }
-  if (props.tags.includes(tagValue) === false) {
-    // 등록되어 있는, 중복 태그는 제거하고 등록
-    emit("update:tags", [...props.tags, tagValue]);
-  }
-  e.target.value = ""; // 초기화
-};
-
-// 태그 삭제 이벤트
-// 삭제 버튼에 저장된 index 넘버로 데이터 찾아서 삭제
-const removeTag = (index) => {
-  const model = [...props.tags]
-  model.splice(index,1)
-  emit('update:tags',model)
-};
+const { addTag, removeTag } = useTag({
+  tags: toRef(props, 'tags'),
+  updateTags: tags => emit('update:tags', tags),
+  // firebase 스펙상 10까지만 저장가능
+  maxLengthMessage: '태그는 10개 이상 등록할 수 없습니다.',
+});
 
 const categories = getCategories();
 

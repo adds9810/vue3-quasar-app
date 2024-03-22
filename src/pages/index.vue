@@ -2,7 +2,7 @@
   <q-page padding>
     <div class="row q-col-gutter-x-lg">
       <!-- 필요한 위치에 컴포넌트 추가 -->
-      <PostLeftBar class="col-grow" />
+      <PostLeftBar class="col-grow" v-model:category="params.category" />
       <section class="col-7">
         <PostHeader />
         <PostList :items="posts" />
@@ -31,7 +31,7 @@
 
 <script setup>
 // 상태를 나타낼 변수를 불러오게 함
-import { ref } from "vue";
+import { ref, watch } from 'vue';
 import { useRouter } from "vue-router";
 // components 연결
 import PostList from "src/components/apps/post/PostList.vue";
@@ -41,26 +41,45 @@ import PostRightBar from "src/pages/components/PostRightBar.vue";
 import PostWriteDialog from "src/components/apps/post/PostWriteDialog.vue";
 
 const router = useRouter();
+const params = ref({
+  category: null,
+  tags: [],
+  sort: "createdAt",
+});
 // const goPostDetails = (id) => router.push(`/posts/${id}`);
 
 // 반복문을 사용해 만들기
-const posts = Array.from(Array(20), (_, index) => ({
-  id: "A" + index,
-  title: "Vue3 Firebase 강의 " + index,
-  content:
-    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed temporibus magnam nostrum illum sunt quo exercitationem repellendus eaque hic, aliquid labore consequuntur, natus itaque porro dolorem error esse facere ipsum.",
-  readCount: 1,
-  commentCount: 2,
-  likeCount: 3,
-  bookmarkCount: 4,
-  tags: ["html", "css", "javascript"],
-  uid: "uid",
-  category: "카테고리" + index,
-}));
+// const posts = Array.from(Array(20), (_, index) => ({
+//   id: "A" + index,
+//   title: "Vue3 Firebase 강의 " + index,
+//   content:
+//     "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed temporibus magnam nostrum illum sunt quo exercitationem repellendus eaque hic, aliquid labore consequuntur, natus itaque porro dolorem error esse facere ipsum.",
+//   readCount: 1,
+//   commentCount: 2,
+//   likeCount: 3,
+//   bookmarkCount: 4,
+//   tags: ["html", "css", "javascript"],
+//   uid: "uid",
+//   category: "카테고리" + index,
+// }));
+
+const { state: posts, execute } = useAsyncState(getPosts, [], {
+  immediate: false,
+  throwError: true,
+});
+watch(params, () => execute(0, params.value), {
+  deep: true,
+  immediate: true,
+});
+
 
 const postDialog = ref(false);
 const openWriteDialog = () => {
   postDialog.value = true;
+};
+const completeRegistrationPost = () => {
+  postDialog.value = false;
+  execute(0, params.value);
 };
 </script>
 
