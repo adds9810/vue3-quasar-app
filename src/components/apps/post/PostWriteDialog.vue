@@ -17,6 +17,7 @@
         v-model:title="form.title"
         v-model:category="form.category"
         v-model:content="form.content"
+        v-model:tags="form.tags"
         :loading="isLoading"
         @submit="execute(1000, { ...form, uid: authStore.uid })"
       />

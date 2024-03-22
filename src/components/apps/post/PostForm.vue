@@ -30,20 +30,33 @@
         placeholder="내용을 작성해주세요~!"
       /> -->
       <q-input
-        v-model="tagField"
         outlined
         placeholder="태그를 입력해주세요~! (입력 후 Enter)"
         prefix="#"
+        @keypress.enter.prevent="onRegistTag"
       />
-      <q-chip outline dense color="teal" removable @remove="removeTag"
-        >vuejs</q-chip
+      <q-chip
+        v-for="(tag, index) in tags"
+        :key="tag"
+        outline
+        dense
+        color="teal"
+        removable
+        @remove="removeTag(index)"
+        >{{ tag }}</q-chip
       ></q-card-section
     >
     <q-separator />
     <q-card-actions align="right">
       <slot name="actions">
         <q-btn flat label="취소하기" v-close-popup />
-        <q-btn type="submit" flat label="저장하기" color="primary" :loading="loding"/>
+        <q-btn
+          type="submit"
+          flat
+          label="저장하기"
+          color="primary"
+          :loading="loding"
+        />
       </slot>
     </q-card-actions>
   </q-form>
@@ -90,11 +103,29 @@ const contentModel = computed({
   set: (val) => emit("update:content", val),
 });
 
-const tagField = ref("");
+// 태그추가 이벤트
+const onRegistTag = (e) => {
+  const tagValue = e.target.value.replace(/ /g, ""); // 공백 처리
+  if (!tagValue) {
+    return;
+  }
+  if (props.tags.length >= 10) {
+    $q.notify("태그는 10개 이상 등록할 수 없습니다.");
+    return;
+  }
+  if (props.tags.includes(tagValue) === false) {
+    // 등록되어 있는, 중복 태그는 제거하고 등록
+    emit("update:tags", [...props.tags, tagValue]);
+  }
+  e.target.value = ""; // 초기화
+};
 
 // 태그 삭제 이벤트
-const removeTag = () => {
-  console.log("removeTag");
+// 삭제 버튼에 저장된 index 넘버로 데이터 찾아서 삭제
+const removeTag = (index) => {
+  const model = [...props.tags]
+  model.splice(index,1)
+  emit('update:tags',model)
 };
 
 const categories = getCategories();
