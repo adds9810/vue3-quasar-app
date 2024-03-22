@@ -1,11 +1,13 @@
-import { db } from "boot/firebase";
+import { db } from 'boot/firebase';
 import {
   addDoc,
   collection,
   doc,
   setDoc,
   serverTimestamp,
-} from "firebase/firestore";
+  getDocs,
+} from 'firebase/firestore';
+
 
 // 글 작성 완료 후 상세 페이지로 넘어갈 수 있도록 구현
 export async function createPost(data) {
@@ -37,4 +39,25 @@ export async function createPost(data) {
     createdAt: serverTimestamp(),
   });
   return docRef.id;
+}
+
+// 글 작성 기능 구현
+export async function getPosts(params) {
+  const querySnapshot = await getDocs(collection(db, "posts"));
+  // const posts = [];
+  // querySnapshot.forEach(docs => {
+  //   // doc.data() is never undefined for query doc snapshots
+  //   console.log(docs.id, ' => ', docs.data());
+  //   posts.push(docs.data());
+  // });
+  const posts = querySnapshot.docs.map((docs) => {
+    const data = docs.data();
+    return {
+      ...data,
+      id: docs.id,
+      createdAt: data.createdAt?.toDate(),
+    };
+  });
+  console.log(posts);
+  return posts;
 }

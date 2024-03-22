@@ -10,7 +10,9 @@
     </q-item-section>
     <q-item-section>
       <div class="flex items-center">
-        <span>닉네임&nbsp;&middot;&nbsp;3일전</span>
+        <span>닉네임&nbsp;&middot;&nbsp;{{
+            date.formatDate(createdAt, 'YY/MM/DD HH:mm:ss')
+          }}</span>
         <!-- 프로필 이미지 -->
         <q-chip class="q-ml-sm" color="primary" text-color="white">
           {{ category }}
@@ -66,6 +68,7 @@
 </template>
 
 <script setup>
+import { date } from 'quasar'; // 퀘이사 유팅 활용
 import PostIcon from "./PostIcon.vue";
 
 // 받을 값 입력
@@ -78,7 +81,7 @@ defineProps({
   likeCount: { type: Number, default: 0 },
   bookmarkCount: { type: Number, default: 0 },
   category: { type: String },
-  createTime: { type: Date },
+  createdAt: { type: Date },
   tags: { type: Array, default: () => {} },
   uid: { type: String },
 });
