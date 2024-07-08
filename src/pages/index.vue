@@ -53,6 +53,7 @@ import PostRightBar from "./components/PostRightBar.vue";
 import PostWriteDialog from "src/components/apps/post/PostWriteDialog.vue";
 
 const router = useRouter();
+// 조건 params 변수 생성
 const params = ref({
   category: null,
   tags: [],
