@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="text-h4">Index</div>
+    <div class="text-h4">Admin/Index</div>
   </div>
 </template>
 

@@ -11,7 +11,6 @@
         >
           <q-item-section>전체</q-item-section>
         </q-item>
-
         <q-item
           v-for="cate in categories"
           :key="cate.value"
@@ -39,6 +38,7 @@ defineProps({
   },
 });
 const emit = defineEmits(["update:category"]);
+
 const changeCategory = (value) => {
   emit("update:category", value);
 };

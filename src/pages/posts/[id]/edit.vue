@@ -1,5 +1,5 @@
 <template>
-  <q-page>
+  <q-page padding>
     <BaseCard>
       <q-toolbar>
         <q-toolbar-title>글쓰기</q-toolbar-title>
@@ -21,7 +21,6 @@
     </BaseCard>
   </q-page>
 </template>
-
 <script>
 // 초기화 함수, 일반 script에 추가해도 무관
 const getInitialForm = () => ({
@@ -41,5 +40,6 @@ const form = ref(getInitialForm());
 
 <style lang="scss" scoped></style>
 <route lang="yaml">
-meta: width:800px
+meta:
+  width: 800px
 </route>

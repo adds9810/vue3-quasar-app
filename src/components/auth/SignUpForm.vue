@@ -44,16 +44,19 @@
           (val) => validatePasswordConfirm(form.password, val),
         ]"
       />
+
       <q-btn
         type="submit"
         label="가입하기"
         class="full-width"
         unelevated
         color="primary"
+        :loading="isLoading"
       />
+
       <q-separator />
       <q-btn
-        label="로그인하기"
+        label="로그인 하기"
         class="full-width"
         unelevated
         flat
@@ -66,6 +69,7 @@
 <script setup>
 import { ref } from "vue";
 import { useQuasar } from "quasar";
+import { useAsyncState } from "@vueuse/core";
 import { signUpWithEmail } from "src/services"; // src/services/index.js 추가 및 내보내기로 해당 경로만으로 가져올 수 있음
 import {
   validateRequired,
@@ -73,23 +77,42 @@ import {
   validatePassword,
   validatePasswordConfirm,
 } from "src/utils/validate-rules";
+import { getErrorMessage } from "src/utils/firebase/error-message";
 
 const emit = defineEmits(["changeView", "closeDialog"]);
+
 const $q = useQuasar();
 
+const { isLoading, execute } = useAsyncState(signUpWithEmail, null, {
+  immediate: false,
+  onSuccess: () => {
+    $q.notify("가입을 환영합니다 :)");
+    $q.notify("이메일에서 인증 링크를 확인해주세요.");
+    emit("closeDialog");
+  },
+  onError: (err) => {
+    $q.notify({
+      type: "negative",
+      message: getErrorMessage(err.code),
+    });
+  },
+});
+
+const passwordConfirm = ref("");
 // 회원가입시 받을 데이터를 변수로 설정
 const form = ref({
   nickname: "",
   email: "",
   password: "",
 });
-
-const handleSubmit = async () => {
-  await signUpWithEmail(form.value);
-  $q.notify("가입을 환영합니다 :)");
-  $q.notify("이메일에서 인증 링크를 확인해주세요.");
-  emit("closeDialog");
-};
+const handleSubmit = () => execute(1000, form.value);
+// const handleSubmit = async () => {
+//   console.log('handleSubmit');
+//   await signUpWithEmail(form.value);
+//   $q.notify('가입을 환영합니다 :)');
+//   $q.notify('이메일에서 인증 링크를 확인해주세요.');
+//   emit('closeDialog');
+// };
 </script>
 
 <style lang="scss" scoped></style>

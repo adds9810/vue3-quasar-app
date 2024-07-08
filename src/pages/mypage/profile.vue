@@ -73,7 +73,7 @@ const displayName = ref("");
 const handleSubmitProfile = () => executeProfile(0, displayName.value);
 // const handleSubmitProfile = async () => {
 //   await updateUserProfile(displayName.value);
-//   $q.notify("프로필 수정 완료!");
+//   $q.notify('프로필 수정 완료!');
 // };
 
 const { isLoading: isLoadingEmail, execute: executeEmail } = useAsyncState(

@@ -47,14 +47,14 @@ export async function createPost(data) {
 export async function getPosts(params) {
   console.log("### params : ", params);
   // 1] 컬렉션에 있는 모든 문서 조회
-  // const querySnapshot = await getDocs(collection(db, "posts"));
-  // const posts = [];
-  // querySnapshot.forEach(docs => {
-  //   // doc.data() is never undefined for query doc snapshots
-  //   console.log(docs.id, ' => ', docs.data());
-  //   posts.push(docs.data());
-  // });
-  // const posts = querySnapshot.docs.map((docs) => {
+  // const querySnapshot = await getDocs(collection(db, 'posts'));
+  // // const posts = [];
+  // // querySnapshot.forEach(docs => {
+  // //   // doc.data() is never undefined for query doc snapshots
+  // //   console.log(docs.id, ' => ', docs.data());
+  // //   posts.push(docs.data());
+  // // });
+  // const posts = querySnapshot.docs.map(docs => {
   //   const data = docs.data();
   //   return {
   //     ...data,

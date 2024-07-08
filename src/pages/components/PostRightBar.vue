@@ -13,13 +13,13 @@
       <q-avatar class="q-mr-sm" color="white" text-color="primary" size="22px">
         <q-icon name="edit" size="14px" />
       </q-avatar>
-      <span>새 포스트 작성하기</span>
+      <span class="text-weight-bold">새 포스트 작성하기</span>
     </q-btn>
-    <q-card class="q-mt-md bg-gray-1" bordered flat>
-      <q-card-section class="flex items-center q-pb-none"
-        ><div class="text-weight-bold">태그</div>
+    <q-card class="q-mt-md bg-grey-1" bordered flat>
+      <q-card-section class="flex items-center q-pb-none">
+        <div class="text-weight-bold">태그</div>
         <q-space />
-        <q-btn icon="refresh" dense size="sm" flat round color="gray" />
+        <q-btn icon="refresh" dense size="sm" flat round color="grey" />
       </q-card-section>
       <q-card-section class="q-pb-sm">
         <q-card class="q-px-sm" bordered flat square>
@@ -47,7 +47,7 @@
           </div>
         </q-card>
       </q-card-section>
-	    <!-- 임시소스 -->
+      <!-- 임시소스 -->
       <q-list padding>
         <q-item clickable dense @click="addTag('vuejs')">
           <q-item-section class="text-teal text-caption">
@@ -63,9 +63,9 @@
 </template>
 
 <script setup>
-import { ref, toRef } from 'vue';
-import { useTag } from 'src/composables/useTag';
-import StickySideBar from 'src/components/StickySideBar.vue';
+import { ref, toRef } from "vue";
+import { useTag } from "src/composables/useTag";
+import StickySideBar from "src/components/StickySideBar.vue";
 
 const props = defineProps({
   tags: {
@@ -73,12 +73,12 @@ const props = defineProps({
     default: () => [],
   },
 });
-const emit = defineEmits(['openWriteDialog', 'update:tags']);
+const emit = defineEmits(["openWriteDialog", "update:tags"]);
 
 const { addTag, removeTag } = useTag({
-  tags: toRef(props, 'tags'),
-  updateTags: tags => emit('update:tags', tags),
-  maxLengthMessage: '태그는 10개 이상 등록할 수 없습니다.',
+  tags: toRef(props, "tags"),
+  updateTags: (tags) => emit("update:tags", tags),
+  maxLengthMessage: "태그는 10개 이상 등록할 수 없습니다.",
 });
 </script>
 

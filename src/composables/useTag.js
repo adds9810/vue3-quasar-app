@@ -1,5 +1,5 @@
 // 태그사용 관련 이벤트
-const useTag = () => {
+export const useTag = (options) => {
   const { tags, updateTags, maxLengthMessage } = options || {};
 
   // 태그추가 이벤트
@@ -9,14 +9,15 @@ const useTag = () => {
     const tagValue = isEventHandler
       ? newTag.target.value.replace(/ /g, "")
       : newTag.replace(/ /g, ""); // 공백 처리
+
     if (!tagValue) {
       return;
     }
-    if (props.tags.length >= 10) {
-      $q.notify("태그는 10개 이상 등록할 수 없습니다.");
+    if (tags.value.length >= 10) {
+      $q.notify(maxLengthMessage);
       return;
     }
-    if (props.tags.includes(tagValue) === false) {
+    if (tags.value.includes(tagValue) === false) {
       // 등록되어 있는, 중복 태그는 제거하고 등록
       // emit("update:tags", [...props.tags, tagValue]);
       updateTags([...tags.value, tagValue]);
@@ -32,7 +33,7 @@ const useTag = () => {
   const removeTag = (index) => {
     const model = [...tags.value];
     model.splice(index, 1);
-    // emit("update:tags", model);
+    // emit('update:tags', model);
     updateTags(model);
   };
   return {

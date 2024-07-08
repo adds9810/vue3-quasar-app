@@ -6,24 +6,21 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  updateEmail,
   updatePassword,
   updateProfile,
-  updateEmail,
 } from "firebase/auth";
 import { auth } from "src/boot/firebase";
-
-const DEFAULT_PTOTO_URL =
-  "https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=";
+const DEFAULT_PHOTO_URL =
+  "https://api.dicebear.com/6.x/adventurer-neutral/svg?seed=";
 
 // 로그인 (구글)
 export async function signInWithGoogle() {
   const provider = new GoogleAuthProvider();
   const { user } = await signInWithPopup(auth, provider);
-  // console.log("user: ", result.user);
   return user;
 }
 
-// 로그아웃 (구글)
 export async function logout() {
   await signOut(auth);
 }
@@ -41,7 +38,7 @@ export async function signUpWithEmail({ email, password, nickname }) {
 
 // 기본 이미지 설정
 export function generateDefaultPhotoURL(uid) {
-  return `${DEFAULT_PTOTO_URL}${uid}`;
+  return `${DEFAULT_PHOTO_URL}${uid}`;
 }
 
 // 로그인(이메일)
@@ -55,14 +52,14 @@ export async function sendPasswordReset(email) {
   await sendPasswordResetEmail(auth, email);
 }
 
-// 인증메일 보내기
-export async function sendVerificationEmail() {
-  await sendEmailVerification(auth.currentUser);
-}
-
 // 비밀번호 변경
 export async function updateUserPassword(newPassword) {
   await updatePassword(auth.currentUser, newPassword);
+}
+
+// 인증메일 보내기
+export async function sendVerificationEmail() {
+  await sendEmailVerification(auth.currentUser);
 }
 
 // 프로필 변경

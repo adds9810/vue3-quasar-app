@@ -8,7 +8,10 @@
 
 <script setup>
 import PostItem from "./PostItem.vue";
-defineProps({ items: Array, default: () => {} });
+defineProps({
+  items: Array,
+  default: () => [],
+});
 </script>
 
 <style lang="scss" scoped></style>

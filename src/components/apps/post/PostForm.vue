@@ -1,6 +1,6 @@
 <template>
   <q-form @submit.prevent="handleSubmit">
-    <q-card-section class="q-pa-md q-gutter-y-sm">
+    <q-card-section class="q-gutter-y-sm">
       <q-input
         v-model="titleModel"
         outlined
@@ -43,9 +43,10 @@
         color="teal"
         removable
         @remove="removeTag(index)"
-        >{{ tag }}</q-chip
-      ></q-card-section
-    >
+      >
+        {{ tag }}
+      </q-chip>
+    </q-card-section>
     <q-separator />
     <q-card-actions align="right">
       <slot name="actions">
@@ -55,7 +56,7 @@
           flat
           label="저장하기"
           color="primary"
-          :loading="loding"
+          :loading="loading"
         />
       </slot>
     </q-card-actions>
@@ -63,21 +64,28 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-import { getCategories } from "src/services/category";
+import { ref, computed, toRef } from "vue";
 import { useQuasar } from "quasar";
 import { useTag } from "src/composables/useTag";
+import { getCategories } from "src/services/category";
 import { validateRequired } from "src/utils/validate-rules";
 import TiptapEditor from "src/components/tiptap/TiptapEditor.vue";
 
-$q = useQuasar;
-
 const props = defineProps({
-  title: { type: String },
-  category: { type: String },
-  content: { type: String },
-  tags: { type: Array, default: () => [] },
-  loding: {
+  title: {
+    type: String,
+  },
+  category: {
+    type: String,
+  },
+  content: {
+    type: String,
+  },
+  tags: {
+    type: Array,
+    default: () => [],
+  },
+  loading: {
     type: Boolean,
     default: false,
   },
@@ -90,6 +98,8 @@ const emit = defineEmits([
   "update:tags",
   "submit",
 ]);
+
+const $q = useQuasar();
 
 const titleModel = computed({
   get: () => props.title,
@@ -105,10 +115,10 @@ const contentModel = computed({
 });
 
 const { addTag, removeTag } = useTag({
-  tags: toRef(props, 'tags'),
-  updateTags: tags => emit('update:tags', tags),
+  tags: toRef(props, "tags"),
+  updateTags: (tags) => emit("update:tags", tags),
   // firebase 스펙상 10까지만 저장가능
-  maxLengthMessage: '태그는 10개 이상 등록할 수 없습니다.',
+  maxLengthMessage: "태그는 10개 이상 등록할 수 없습니다.",
 });
 
 const categories = getCategories();

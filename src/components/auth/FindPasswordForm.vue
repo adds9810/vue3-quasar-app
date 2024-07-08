@@ -13,9 +13,10 @@
         unelevated
         color="primary"
       />
+
       <q-separator />
       <q-btn
-        label="로그인하기"
+        label="로그인 하기"
         class="full-width"
         unelevated
         flat
@@ -37,7 +38,7 @@ const $q = useQuasar();
 const email = ref("");
 const handleSubmit = async () => {
   await sendPasswordReset(email.value);
-  $q.notify("이메일로 비밀번호 재설정 링크를 보냈습니다.");
+  $q.notify("이메일로 비밀번호 재설정 링크를 보냈어요! 💪");
   emit("closeDialog");
 };
 </script>

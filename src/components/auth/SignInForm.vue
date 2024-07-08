@@ -12,7 +12,6 @@
         dense
       />
       <DisplayError :code="error?.code" />
-
       <div>
         <q-btn
           type="submit"
@@ -20,30 +19,31 @@
           class="full-width"
           unelevated
           color="primary"
-          :loading="isLoding"
+          :loading="isLoading"
         />
         <div class="flex justify-between">
           <q-btn
             label="비밀번호 찾기"
+            color="secondary"
             flat
             dense
-            color="secondary"
             size="13px"
-            @click="$emit('changeView', 'FindPassword')"
+            @click="$emit('changeView', 'FindPasswordForm')"
           />
           <q-btn
             label="이메일 가입하기"
+            color="secondary"
             flat
             dense
-            color="secondary"
             size="13px"
             @click="$emit('changeView', 'SignUpForm')"
           />
         </div>
       </div>
+
       <q-separator />
       <q-btn
-        label="구글 계정으로 로그인"
+        label="구글 계정으로 로그인하기"
         class="full-width"
         unelevated
         color="primary"
@@ -57,8 +57,8 @@
 <script setup>
 import { ref } from "vue";
 import { useQuasar } from "quasar";
-import { signInWithGoogle, signInWithEmail } from "src/services";
 import { useAsyncState } from "@vueuse/core";
+import { signInWithGoogle, signInWithEmail } from "src/services";
 import { getErrorMessage } from "src/utils/firebase/error-message";
 
 import DisplayError from "../DisplayError.vue";
@@ -67,7 +67,7 @@ const emit = defineEmits(["changeView", "closeDialog"]);
 const $q = useQuasar();
 
 // 에러관련 변수선언
-// const isLoding = ref(false);
+// const isLoading = ref(false);
 // const error = ref(null);
 
 const { isLoading, error, execute } = useAsyncState(signInWithEmail, null, {
@@ -104,21 +104,25 @@ const handleSignInEmail = () => execute(1000, form.value); // execute을 실행�
 // const handleSignInEmail = async () => {
 //   // 에러처리
 //   try {
-//     // 정상 수신 되었을 경우
-//     isLoding.value = true;
+// 정상 수신 되었을 경우
+//     isLoading.value = true;
 //     await signInWithEmail(form.value);
-//     $q.notify("환영합니다 :)");
-//     emit("closeDialog");
+//     $q.notify('환영합니다 :)');
+//     emit('closeDialog');
 //   } catch (err) {
-//     // 에러 발생시
+// 에러 발생시
 //     error.value = err;
+//     $q.notify({
+//       type: 'negative',
+//       message: getErrorMessage(err.code),
+//     });
 //   } finally {
-//     // 처리 끝난 후 초기화
-//     isLoding.value = false;
+// 처리 끝난 후 초기화
+//     isLoading.value = false;
 //   }
 // };
 
-// 로그인(구글)
+// 로그인 (구글)
 const handleSignInGoogle = async () => {
   await signInWithGoogle();
   $q.notify("환영합니다~! :)");

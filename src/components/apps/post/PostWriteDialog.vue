@@ -31,7 +31,6 @@ export default {
 };
 </script> -->
 <script>
-// 초기화 함수, 일반 script에 추가해도 무관
 const getInitialForm = () => ({
   title: "",
   category: "",
@@ -41,37 +40,38 @@ const getInitialForm = () => ({
 </script>
 <script setup>
 import { ref } from "vue";
-import PostForm from "./PostForm.vue";
-import { createPost } from "src/services";
-import { useAuthStore } from "src/stores/auth";
-import { useAsyncState } from "@vueuse/core";
 import { useRouter } from "vue-router";
+import { useAsyncState } from "@vueuse/core";
+import { useAuthStore } from "src/stores/auth";
+
+import { createPost } from "src/services";
+import PostForm from "./PostForm.vue";
+
+const emit = defineEmits(["complete"]);
 
 const router = useRouter();
 const authStore = useAuthStore();
 const form = ref(getInitialForm());
 
-// 창 닫으면 초기화 되는 이벤트
 const onHide = () => {
   form.value = getInitialForm();
 };
 
-// statepost, 초기값, 옵션
-const { isLoding, execute } = useAsyncState(createPost, null, {
-  immediate: false, // 즉시실행 여부
-  throwError: false, // 에러처리 - 별도 에러처리를 할 예정이므로 false
+const { isLoading, execute } = useAsyncState(createPost, null, {
+  immediate: false,
+  throwError: true,
   onSuccess: (postId) => {
     console.log("postId: ", postId);
-    router.push(`/posts/${postId}`);
+    // router.push(`/posts/${postId}`);
+    emit("complete");
   },
 });
-
 // const handleSubmit = async () => {
-//   // 성공시 이벤트
-//   await execute(1000, {
-//     ...form.value,
-//     uid: authStore.uid,
-//   });
+// 성공시 이벤트
+// await execute(1000, {
+//   ...form.value,
+//   uid: authStore.uid,
+// });
 // };
 </script>
 

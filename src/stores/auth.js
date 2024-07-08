@@ -1,6 +1,6 @@
-import { useLocalStorage, StorageSerializers } from "@vueuse/core";
-import { defineStore } from "pinia";
 import { computed, ref } from "vue";
+import { defineStore } from "pinia";
+import { useLocalStorage, StorageSerializers } from "@vueuse/core";
 
 export const useAuthStore = defineStore("auth", () => {
   // const user = ref(null); // user를 담는 반응형 변수
@@ -33,8 +33,8 @@ export const useAuthStore = defineStore("auth", () => {
   // 사용할 수 있도록 return
   return {
     user,
-    isAuthenticated,
     uid,
+    isAuthenticated,
     setUser,
   };
 });
